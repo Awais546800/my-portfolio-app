@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Professional Background Image - Only shows when themes are applied */
+#theme-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: all 0.5s ease;
+  min-height: 100vh;
+}
+
+/* Default theme - minimal background */
+[data-theme="default"] #theme-background {
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+  background-size: 100% 100%;
+}
+
+/* Professional Background Image for Applied Themes */
+[data-theme]:not([data-theme="default"]) #theme-background {
+  background-image: 
+    /* Professional tech/developer background pattern */
+    url("data:image/svg+xml,%3Csvg width='1920' height='1080' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:rgba(59,130,246,0.1);stop-opacity:1' /%3E%3Cstop offset='50%25' style='stop-color:rgba(139,92,246,0.08);stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:rgba(16,185,129,0.1);stop-opacity:1' /%3E%3C/linearGradient%3E%3Cpattern id='grid' width='100' height='100' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 100 0 L 0 0 0 100' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='1'/%3E%3C/pattern%3E%3Cpattern id='circuit' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='50' cy='50' r='2' fill='rgba(59,130,246,0.2)'/%3E%3Ccircle cx='150' cy='50' r='2' fill='rgba(139,92,246,0.2)'/%3E%3Ccircle cx='50' cy='150' r='2' fill='rgba(16,185,129,0.2)'/%3E%3Ccircle cx='150' cy='150' r='2' fill='rgba(59,130,246,0.2)'/%3E%3Cpath d='M 50 50 L 150 50 M 50 50 L 50 150 M 150 50 L 150 150 M 50 150 L 150 150' stroke='rgba(255,255,255,0.03)' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grad1)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23circuit)'/%3E%3C/svg%3E"),
+    /* Additional depth layers */
+    radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+  background-size: 
+    cover,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+  background-blend-mode: overlay, normal, normal, normal;
+  background-color: transparent !important; /* Let CSS handle it */
+}
+
+/* Neural Midnight Theme - Special background */
+[data-theme="neural-midnight"] #theme-background {
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='1920' height='1080' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='neuralGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%230B0E14;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%231a1f2e;stop-opacity:1' /%3E%3C/linearGradient%3E%3Cpattern id='neuralGrid' width='80' height='80' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 80 0 L 0 0 0 80' fill='none' stroke='rgba(0,245,255,0.1)' stroke-width='0.5'/%3E%3C/pattern%3E%3Cpattern id='dataFlow' width='300' height='300' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='50' cy='50' r='3' fill='rgba(0,245,255,0.3)'/%3E%3Ccircle cx='250' cy='50' r='3' fill='rgba(112,0,255,0.3)'/%3E%3Ccircle cx='50' cy='250' r='3' fill='rgba(0,245,255,0.2)'/%3E%3Ccircle cx='250' cy='250' r='3' fill='rgba(112,0,255,0.2)'/%3E%3Cpath d='M 50 50 Q 150 100 250 50 M 50 50 Q 150 150 50 250 M 250 50 Q 150 200 250 250' stroke='rgba(0,245,255,0.15)' stroke-width='1' fill='none'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23neuralGrad)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23neuralGrid)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23dataFlow)' opacity='0.6'/%3E%3C/svg%3E") !important;
+  background-size: cover !important;
+  background-blend-mode: normal;
+  background-color: #0B0E14 !important;
+}
+
+/* Emerald Matrix Theme - Special background */
+[data-theme="emerald-matrix"] #theme-background {
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='1920' height='1080' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='emeraldGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%230F172A;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%231e293b;stop-opacity:1' /%3E%3C/linearGradient%3E%3Cpattern id='matrixGrid' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='rgba(52,211,153,0.1)' stroke-width='0.5'/%3E%3C/pattern%3E%3Cpattern id='codeLines' width='400' height='400' patternUnits='userSpaceOnUse'%3E%3Crect x='20' y='20' width='360' height='2' fill='rgba(52,211,153,0.15)'/%3E%3Crect x='20' y='60' width='300' height='2' fill='rgba(56,189,248,0.12)'/%3E%3Crect x='20' y='100' width='340' height='2' fill='rgba(52,211,153,0.1)'/%3E%3Crect x='20' y='140' width='280' height='2' fill='rgba(56,189,248,0.08)'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23emeraldGrad)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23matrixGrid)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23codeLines)' opacity='0.5'/%3E%3C/svg%3E") !important;
+  background-size: cover !important;
+  background-color: #0F172A !important;
+}
+
+/* Titanium Chrome Theme - Special background */
+[data-theme="titanium-chrome"] #theme-background {
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='1920' height='1080' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='chromeGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23111111;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%231a1a1a;stop-opacity:1' /%3E%3C/linearGradient%3E%3Cpattern id='metalTexture' width='100' height='100' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 0 0 L 100 0 L 100 100 L 0 100 Z' fill='rgba(255,255,255,0.02)'/%3E%3Cpath d='M 0 0 L 50 50 M 100 0 L 50 50 M 0 100 L 50 50 M 100 100 L 50 50' stroke='rgba(255,255,255,0.03)' stroke-width='0.5'/%3E%3C/pattern%3E%3Cpattern id='brushedMetal' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Crect x='0' y='0' width='200' height='200' fill='rgba(255,255,255,0.01)'/%3E%3Cpath d='M 0 50 Q 50 40 100 50 T 200 50' stroke='rgba(255,255,255,0.05)' stroke-width='1' fill='none'/%3E%3Cpath d='M 0 100 Q 50 90 100 100 T 200 100' stroke='rgba(255,255,255,0.04)' stroke-width='1' fill='none'/%3E%3Cpath d='M 0 150 Q 50 140 100 150 T 200 150' stroke='rgba(255,255,255,0.03)' stroke-width='1' fill='none'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23chromeGrad)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23metalTexture)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23brushedMetal)' opacity='0.6'/%3E%3C/svg%3E") !important;
+  background-size: cover !important;
+  background-color: #111111 !important;
+}
+
+/* Responsive background adjustments */
+@media (max-width: 768px) {
+  #theme-background {
+    background-size: cover;
+    background-attachment: scroll; /* Better performance on mobile */
+  }
+  
+  [data-theme]:not([data-theme="default"]) #theme-background {
+    background-size: cover, 100% 100%, 100% 100%, 100% 100%;
+  }
+}
+
+/* Theme CSS Variables - Applied dynamically via JavaScript */
+:root {
+  --theme-bg: #f8fafc;
+  --theme-text: #0f172a;
+  --theme-text-secondary: #475569;
+  --theme-primary: #2563eb;
+  --theme-primary-hover: #1d4ed8;
+  --theme-secondary: #64748b;
+  --theme-card-bg: #ffffff;
+  --theme-card-border: #e2e8f0;
+  --theme-section-bg: #ffffff;
+  --theme-button-primary: #2563eb;
+  --theme-button-primary-text: #ffffff;
+  --theme-button-secondary: #ffffff;
+  --theme-button-secondary-text: #0f172a;
+  --theme-button-secondary-border: #e2e8f0;
+  --theme-border: #e2e8f0;
+  --theme-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth scroll transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Hide scrollbar but keep functionality */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Hide Next.js default dev tools panel completely */
+[data-nextjs-dialog],
+[data-nextjs-dialog-overlay],
+[data-nextjs-toast],
+[data-nextjs-toast-container],
+.nextjs-toast-queue-parent,
+#__next-build-watcher,
+#__next-dev-overlay {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide Next.js dev tools button/indicator */
+[data-nextjs-toast],
+[data-nextjs-dialog] {
+  display: none !important;
+}
