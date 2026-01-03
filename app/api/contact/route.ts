@@ -177,9 +177,29 @@ Timestamp: ${new Date().toISOString()}
     
     // Check if email was sent successfully
     if (!emailSent) {
-      const errorMessage = emailError || 'No email service configured. Please set RESEND_API_KEY in Vercel environment variables.';
-      console.error('Email sending failed:', errorMessage);
-      throw new Error(errorMessage);
+      // In development, allow form to succeed (log to console)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('📧 Email sending skipped (development mode):');
+        console.log('To:', profile.contact.email);
+        console.log('Subject:', emailSubject);
+        console.log('Body:', emailBody);
+        console.log('💡 To enable email sending locally, create .env.local with:');
+        console.log('   RESEND_API_KEY=re_your_api_key_here');
+        console.log('   Get your API key from: https://resend.com');
+        // Return success in development for testing
+        return NextResponse.json(
+          { 
+            success: true, 
+            message: "Email sent successfully! (Development mode - check console)",
+          },
+          { status: 200 }
+        );
+      } else {
+        // In production, require email service
+        const errorMessage = emailError || 'No email service configured. Please set RESEND_API_KEY in Vercel environment variables.';
+        console.error('Email sending failed:', errorMessage);
+        throw new Error(errorMessage);
+      }
     }
     
     return NextResponse.json(
