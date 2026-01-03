@@ -26,8 +26,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} min-h-screen`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} min-h-screen`} suppressHydrationWarning>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('portfolio_theme');
+                  var validThemes = ['default', 'neural-midnight', 'emerald-matrix', 'sunset-cyber', 'deep-space', 'titanium-chrome'];
+                  if (theme && validThemes.includes(theme)) {
+                    document.documentElement.setAttribute('data-theme', theme);
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         <ThemeProvider>
           <ProjectsProvider>
             <div 
