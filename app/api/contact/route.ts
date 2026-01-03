@@ -91,29 +91,31 @@ Timestamp: ${new Date().toISOString()}
 
     // Send email using configured service
     let emailSent = false;
+    let emailError: string | null = null;
     
     // Option 1: Resend (recommended - easiest setup)
-    // Install: npm install resend
     if (process.env.RESEND_API_KEY) {
       try {
-        // @ts-ignore - Optional dependency
-        const resendModule = await import('resend').catch(() => null);
-        if (resendModule) {
-          const { Resend } = resendModule;
-          const resend = new Resend(process.env.RESEND_API_KEY);
-          
-          await resend.emails.send({
-            from: 'Portfolio Contact <onboarding@resend.dev>',
-            to: profile.contact.email,
-            replyTo: sanitizedEmail,
-            subject: emailSubject,
-            text: emailBody,
-          });
-          
+        const { Resend } = await import('resend');
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        
+        const result = await resend.emails.send({
+          from: 'Portfolio Contact <onboarding@resend.dev>',
+          to: profile.contact.email,
+          replyTo: sanitizedEmail,
+          subject: emailSubject,
+          text: emailBody,
+        });
+        
+        if (result.error) {
+          console.error('Resend API error:', result.error);
+          emailError = `Resend error: ${result.error.message || 'Unknown error'}`;
+        } else {
           emailSent = true;
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Resend error:', error);
+        emailError = error?.message || 'Failed to send email via Resend';
       }
     }
     
@@ -173,22 +175,11 @@ Timestamp: ${new Date().toISOString()}
       }
     }
     
-    // Development fallback - log email content
+    // Check if email was sent successfully
     if (!emailSent) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('📧 Email would be sent:');
-        console.log('To:', profile.contact.email);
-        console.log('Subject:', emailSubject);
-        console.log('Body:', emailBody);
-        console.log('💡 To enable email sending, install and configure:');
-        console.log('   - npm install resend (recommended)');
-        console.log('   - Or npm install @sendgrid/mail');
-        console.log('   - Or npm install nodemailer');
-        console.log('   - See EMAIL_SETUP_GUIDE.md for details');
-        emailSent = true; // Return success in dev for testing
-      } else {
-        throw new Error('No email service configured. Please set up Resend, SendGrid, or SMTP. See EMAIL_SETUP_GUIDE.md');
-      }
+      const errorMessage = emailError || 'No email service configured. Please set RESEND_API_KEY in Vercel environment variables.';
+      console.error('Email sending failed:', errorMessage);
+      throw new Error(errorMessage);
     }
     
     return NextResponse.json(
